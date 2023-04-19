@@ -19,7 +19,7 @@
 
 <script>
 
-import axios from "axios";
+import axios from "axios"; 
 import {SET_AUTHENTICATION, SET_USERNAME} from "@/store/storeconstants";
 
 export default {
