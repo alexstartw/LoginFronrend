@@ -24,6 +24,16 @@
       </button>
       <h3>This month had absent {{this.absentTime}} times.</h3>
     </div>
+  <div class="mb-3">
+    <label for="changePWInput">Old Password: </label>
+    <input type="text" id="oldPWInput" v-model="input.oldPWInput"/>
+    <label for="changePWInput">New Password: </label>
+    <input type="text" id="changePWInput" v-model="input.changePWInput"/>
+    <button class="btn btn-outline-dark" type="button" @click="changePW">
+      changePW
+    </button>
+    <h3>{{this.changePWText}}</h3>
+  </div>
 
   
   </template>
@@ -38,9 +48,12 @@
         checkInStatus: "",
         checkTime: "0",
         absentTime: "0",
+        changePWText: "",
         input: {
           checkTimeInput: "",
-          absentTimeInput: ""
+          absentTimeInput: "",
+          changePWInput: "",
+          oldPWInput: ""
         },
         rule: {
           message: 'YYYY-MM'
@@ -68,6 +81,7 @@
         return response.data;
       }).catch(function (error) {
         console.log(error);
+        throw error;
       });
     },
       async getCheckInTodayText() {
@@ -91,6 +105,7 @@
           return response.data;
         }).catch(function (error) {
           console.log(error);
+          throw error;
         });
       },
       async getMonthCheckIn() {
@@ -109,10 +124,38 @@
           return response.data;
         }).catch(function (error) {
           console.log(error);
+          throw error;
         });
       },
       async getMonthAbsent() {
         this.absentTime = await this.monthAbsentApi();
+      },
+      async changePWApi() {
+        return await axios({
+          method: 'post',
+          url: '/api/login/ChangePassword',
+          params: {
+            username: this.getUsername(),
+            oldPassword: this.input.oldPWInput,
+            newPassword: this.input.changePWInput
+          }
+        }).then(function (response) {
+          console.log("change PW result " + response.data);
+          return response.data;
+        }).catch(function (error) {
+          console.log(error);
+          throw error;
+        });
+      },
+      async changePW() {
+        let status = await this.changePWApi();
+        console.log("status " + status);
+        if (status===200) {
+          this.changePWText = "Change password successfully"
+        }
+        else {
+          this.changePWText = "Change password failed"
+        }
       },
     }
    

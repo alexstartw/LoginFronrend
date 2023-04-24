@@ -71,6 +71,7 @@ export default {
         return response.data;
       }).catch(function (error) {
         console.log(error);
+        throw error;
       });
 
     },
@@ -87,6 +88,7 @@ export default {
         return response.data;
       }).catch(function (error) {
         console.log(error);
+        throw error;
       });
 
     },

@@ -48,9 +48,10 @@ name: "register",
           password: this.input.password
         }
       }).then(function (response) {
-        console.log(response);
+        console.log(response.status);
       }).catch(function (error) {
         console.log(error);
+        throw error;
       });
     },
     login() {
@@ -79,6 +80,7 @@ name: "register",
         return response.data;
       }).catch(function (error) {
         console.log(error);
+        throw error;
       });
     },
     async register() {
